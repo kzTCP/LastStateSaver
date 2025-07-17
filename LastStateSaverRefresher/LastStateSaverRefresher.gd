@@ -17,7 +17,33 @@ var json_log: kzJsonLSS = jsno_script.new(session.json_path + "log.json")
 var timer: Timer
 
 
+func is_older_than_week(date_str: String) -> bool:
+	
+	# Step 1: Parse the string into a DateTime dictionary
+	var date_parts = date_str.split(" ")
+	var date = date_parts[0].split("-")
+	var time = date_parts[1].split(":")
+	
+	var target_time = {
+		"year": int(date[0]),
+		"month": int(date[1]),
+		"day": int(date[2]),
+		"hour": int(time[0]),
+		"minute": int(time[1]),
+		"second": int(time[2])
+	}
+
+	# Step 2: Convert both to UNIX timestamps
+	var target_timestamp = OS.get_unix_time_from_datetime(target_time)
+	var now = OS.get_unix_time()
+	
+	# Step 3: Check if more than 7 days (in seconds) have passed
+	var seconds_in_week = 7 * 24 * 60 * 60
+	return now - target_timestamp > seconds_in_week
+
+
 func _enter_tree():
+
 	
 	timer = Timer.new()
 	timer.autostart = true
@@ -31,6 +57,13 @@ func finalize(obj):
 	if session.debug: session.out(["done"])
 	
 	timer.queue_free() 
+	
+	# remove log file after a week
+	var data = json_log.read()
+	if data:
+		var creation_date = data.keys()[0]
+		if is_older_than_week(creation_date):
+			json_log.remove()
 	
 	json_log.obj_append(obj)
 	

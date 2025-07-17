@@ -16,7 +16,7 @@ const openned_scripts_key = "openned_scripts"
 const stop_key = "stop"
 
 
-const debug: bool = true
+const debug: bool = false
 const refresh_rate: float = 0.25
 
 

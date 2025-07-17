@@ -6,6 +6,8 @@ var _path: String
 var _dir = Directory.new()
 
 var debug: bool = false
+var session_class = preload("res://addons/LastStateSaver/scripts/Session.gd")
+var session: Session = session_class.new("kzJsonLSS")
 
 
 
@@ -15,7 +17,7 @@ func _init(path: String):
 
 func write(data) -> void:
 	
-	if debug:  print("write", _path)
+	if debug:  session.out(["write:", _path])
 	
 	# create file if not exists
 	if not _dir.file_exists(_path): _create_file()
@@ -31,7 +33,7 @@ func write(data) -> void:
 
 func read() -> Dictionary:
 	
-	if debug: print("read", _path)
+	if debug:  session.out(["read:", _path])
 		
 	var data = null
 	
@@ -47,9 +49,7 @@ func read() -> Dictionary:
 
 func obj_append (dic: Dictionary) -> void:
 	
-	if debug: pass
-	
-	print("obj_append: ", dic)
+	if debug: session.out(["obj_append:", dic])
 		
 	var saved_obj = read()
 	if not saved_obj: 
@@ -70,7 +70,7 @@ func _obj_compaire(obj1: Dictionary, obj2: Dictionary) -> bool:
 
 func clear() -> void:
 
-	if debug: print(_path, "clear")	
+	if debug: session.out(["clear:", _path])	
 	write({})
 
 
@@ -97,8 +97,6 @@ func _create_file():
 			return
 		file.store_string("{}")
 		file.close()
-	else:
-		print("⚠️File already exists:", _path)
 		
 
 func remove():

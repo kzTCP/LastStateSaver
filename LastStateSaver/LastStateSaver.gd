@@ -53,6 +53,8 @@ func _listen_to_main_screen_editor():
 
 func _enter_tree():
 	
+	
+	
 	if session.debug: session.out(["_enter_tree:"])
 	
 	interface = get_editor_interface()
