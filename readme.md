@@ -26,7 +26,7 @@ This Godot 3.x plugin allows you to automatically save and restore the last stat
 
 - ⚠️ If you close the **main scene**, it may still reopen — this is **Godot’s default behavior**, not controlled by the plugin.  
 - ⚠️ If a **scene wasn't saved**, it won't be reopened next time, because **Godot** closes it before the plugin can store its state.  
-- 📜 All loaded items are logged into a `log.json` file located at: `res://addons/LastStateSaver/json/log.json`
+- 📜 All loaded items are logged into a `log.json` file located at: `res://addons/LastStateSaver/json/log.json`, which is refreshed weekly.
 - 📜 After closing **Godot**, a `save.json` file will be created, storing all information for the next session. It is located at: `res://addons/LastStateSaver/json/save.json`
 
 
